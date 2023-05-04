@@ -26,7 +26,7 @@
 }
 
 .chat__header__title__text {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: var(--text-font);
     font-size: 1.5rem;
     text-transform: capitalize;
     color: rgb(43, 43, 43);

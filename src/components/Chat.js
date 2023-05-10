@@ -23,6 +23,8 @@ function Chat() {
             </header>
             <section className="chat__body">
                 <Post />
+                <Post />
+                <Post />
             </section>
         </section>
     )

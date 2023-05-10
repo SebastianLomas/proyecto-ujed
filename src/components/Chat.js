@@ -4,6 +4,29 @@ import MessageBar from "./MessageBar"
 import "./css/Chat.css"
 
 function Chat() {
+    let ws = null
+
+    function connectWS() {
+        ws = new WebSocket(`ws://localhost:8000/`)
+        ws.addEventListener('open', () => {
+            alert('Sesion iniciada')
+        })
+
+        ws.addEventListener('message',() => {
+            alert('Llego un mensaje')
+        })
+
+        ws.addEventListener('error', () => {
+            alert('Hubo un error')
+        })
+
+        ws.addEventListener('close', () => {
+            alert('Sesion Finalizada')
+        })  
+    }
+
+    connectWS()
+    
     return (
         <section className="chat">
             <header className="chat__header">
@@ -24,9 +47,7 @@ function Chat() {
                 </article>
             </header>
             <section className="chat__body">
-                <Post />
-                <Post />
-                <Post />
+
                 <MessageBar />
             </section>
         </section>

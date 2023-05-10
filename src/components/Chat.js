@@ -1,4 +1,6 @@
 import Post from "./Post"
+import MessageBar from "./MessageBar"
+
 import "./css/Chat.css"
 
 function Chat() {
@@ -25,6 +27,7 @@ function Chat() {
                 <Post />
                 <Post />
                 <Post />
+                <MessageBar />
             </section>
         </section>
     )

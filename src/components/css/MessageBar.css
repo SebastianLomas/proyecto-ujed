@@ -4,6 +4,8 @@
     display: grid;
     grid-template-columns: 5rem 1fr;
     grid-template-rows: 100%;
+    position: fixed;
+    bottom: 0;
     background-color: var(--darker-background);
 }
 

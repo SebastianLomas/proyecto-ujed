@@ -4,5 +4,6 @@
   display: grid;
   grid-template-rows: 2.5rem;
   grid-template-columns: 100%;
+  row-gap: 0.4rem;
   background-color: var(--background-color);
 }

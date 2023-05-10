@@ -31,13 +31,28 @@
     align-items: center;
 }
 
+.message-bar__message-area {
+    width: 95%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    background-color: var(--white-color);
+}
+
 .message-bar__message-box .message-bar__message-box__text {
-    width: 90%;
-    height: 2rem;
+    width: 95%;
+    height: 100%;
     border: none;
     resize: none;
     font-family: Arial, Helvetica, sans-serif;
-    border-radius: 1rem;
     font-size: 1rem;
     padding: 0.5rem 0.8rem;
+    outline: none;
+}
+
+.message-bar__message-box__text:focus {
+    border-color: transparent;
+    box-shadow: none;
 }

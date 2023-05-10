@@ -7,7 +7,12 @@ function MessageBar() {
                 <span>I</span>
             </section>
             <section className="message-bar__message-box">
-                <textarea className="message-bar__message-box__text"></textarea>
+                <label className="message-bar__message-area" htmlFor="chat_message">
+                    <textarea 
+                        className="message-bar__message-box__text" 
+                        id="chat_message"
+                        placeholder="Enviar Mensaje"></textarea>
+                </label>
             </section>
         </section>
     )

@@ -1,3 +1,4 @@
+import Post from "./Post"
 import "./css/Chat.css"
 
 function Chat() {
@@ -21,7 +22,7 @@ function Chat() {
                 </article>
             </header>
             <section className="chat__body">
-
+                <Post />
             </section>
         </section>
     )

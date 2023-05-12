@@ -1,6 +1,15 @@
 import "./css/MessageBar.css"
 
-function MessageBar() {
+function MessageBar(props) {
+    function writeMsg() {
+        debugger
+        const msg = document.getElementById('chat_message').value
+
+        if(msg) {
+            props.sendMsgProp(msg)
+        }
+    }
+
     return (
         <section className="message-bar">
             <section className="message-bar__media-button">
@@ -12,7 +21,7 @@ function MessageBar() {
                         className="message-bar__message-box__text" 
                         id="chat_message"
                         placeholder="Enviar Mensaje"></textarea>
-                    <div className="message-bar__button">
+                    <div className="message-bar__button" onClick={writeMsg}>
                         <span>&gt;</span>
                     </div>
                 </label>

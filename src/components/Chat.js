@@ -9,7 +9,7 @@ function Chat() {
     function connectWS() {
         ws = new WebSocket(`ws://localhost:8000/`)
         ws.addEventListener('open', () => {
-            alert('Sesion iniciada')
+            console.log('Sesion iniciada')
         })
 
         ws.addEventListener('message',() => {
@@ -23,6 +23,11 @@ function Chat() {
         ws.addEventListener('close', () => {
             alert('Sesion Finalizada')
         })  
+    }
+
+    function sendMsg(message) {
+        const msgJson = JSON.stringify({msg: message, user: "aa"})
+        ws.send(msgJson)
     }
 
     connectWS()
@@ -47,8 +52,7 @@ function Chat() {
                 </article>
             </header>
             <section className="chat__body">
-
-                <MessageBar />
+                <MessageBar sendMsgProp={sendMsg}/>
             </section>
         </section>
     )

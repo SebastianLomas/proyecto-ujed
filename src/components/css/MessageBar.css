@@ -42,7 +42,7 @@
 }
 
 .message-bar__message-box .message-bar__message-box__text {
-    width: 95%;
+    width: 90%;
     height: 100%;
     border: none;
     resize: none;
@@ -55,4 +55,20 @@
 .message-bar__message-box__text:focus {
     border-color: transparent;
     box-shadow: none;
+}
+
+.message-bar__button {
+    width: 1.8rem;
+    height: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    background-color: rgb(64 64 184);;
+    font-weight: bold;
+    color: var(--white-color);
+}
+
+.message-bar__button:hover, .message-bar__button span {
+    cursor: pointer;
 }

@@ -12,6 +12,9 @@ function MessageBar() {
                         className="message-bar__message-box__text" 
                         id="chat_message"
                         placeholder="Enviar Mensaje"></textarea>
+                    <div className="message-bar__button">
+                        <span>&gt;</span>
+                    </div>
                 </label>
             </section>
         </section>

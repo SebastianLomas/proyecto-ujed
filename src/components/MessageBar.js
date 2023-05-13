@@ -2,7 +2,6 @@ import "./css/MessageBar.css"
 
 function MessageBar(props) {
     function writeMsg() {
-        debugger
         const msg = document.getElementById('chat_message').value
 
         if(msg) {

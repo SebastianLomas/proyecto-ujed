@@ -1,9 +1,12 @@
 import Post from "./Post"
 import MessageBar from "./MessageBar"
+import { useState } from "react"
 
 import "./css/Chat.css"
 
 function Chat() {
+    const [msgs, setMsg] = useState([])
+
     let ws = null
 
     function connectWS() {
@@ -12,8 +15,17 @@ function Chat() {
             console.log('Sesion iniciada')
         })
 
-        ws.addEventListener('message',() => {
-            alert('Llego un mensaje')
+        ws.addEventListener('message',(ev) => {
+            const msgObject = ev.data.text()
+
+            msgObject.then(response => {
+                const msgCopy = [...msgs]
+                msgCopy.unshift(JSON.parse(response))
+                setMsg(msgCopy)
+                console.log(response)
+            })
+
+            console.log('Llego un mensaje')
         })
 
         ws.addEventListener('error', () => {
@@ -52,6 +64,12 @@ function Chat() {
                 </article>
             </header>
             <section className="chat__body">
+                {
+                    msgs.map((item) => {
+                        console.log(item)
+                        return <Post postText={item.msg} />
+                    })
+                }
                 <MessageBar sendMsgProp={sendMsg}/>
             </section>
         </section>

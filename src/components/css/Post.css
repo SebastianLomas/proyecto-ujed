@@ -11,6 +11,7 @@
 .post__header {
     width: 90%;
     height: 5rem;
+    padding: 0.5rem 0.2rem;
 }
 
 .post__header__text {

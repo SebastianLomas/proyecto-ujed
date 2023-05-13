@@ -38,7 +38,7 @@ function Chat() {
     }
 
     function sendMsg(message) {
-        const msgJson = JSON.stringify({msg: message, user: "aa"})
+        const msgJson = JSON.stringify({id: null, msg: message, user: "aa"})
         ws.send(msgJson)
     }
 
@@ -67,7 +67,7 @@ function Chat() {
                 {
                     msgs.map((item) => {
                         console.log(item)
-                        return <Post postText={item.msg} />
+                        return <Post key={item.id} postText={item.msg} />
                     })
                 }
                 <MessageBar sendMsgProp={sendMsg}/>

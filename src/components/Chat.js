@@ -29,11 +29,11 @@ function Chat() {
         })
 
         ws.addEventListener('error', () => {
-            alert('Hubo un error')
+            console.log('Hubo un error')
         })
 
         ws.addEventListener('close', () => {
-            alert('Sesion Finalizada')
+            console.log('Sesion Finalizada')
         })  
     }
 

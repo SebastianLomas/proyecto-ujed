@@ -1,4 +1,5 @@
 import "./css/MessageBar.css"
+import { BsUpload } from 'react-icons/bs'
 
 function MessageBar(props) {
     function writeMsg() {
@@ -11,9 +12,14 @@ function MessageBar(props) {
 
     return (
         <section className="message-bar">
-            <section className="message-bar__media-button">
-                <span>I</span>
-            </section>
+            <label className="message-bar__media-button" htmlFor="imageInput">
+                <input 
+                    className="message-bar__media-button__input" 
+                    type="file" accept="image/*" 
+                    id="imageInput">
+                </input>
+                <BsUpload className="icon" />
+            </label>
             <section className="message-bar__message-box">
                 <label className="message-bar__message-area" htmlFor="chat_message">
                     <textarea 

@@ -17,11 +17,20 @@
     align-items: center;
 }
 
-.message-bar__media-button span {
-    font-size: 1.8rem;
+.message-bar__media-button:hover {
+    cursor: pointer;
+}
+
+.message-bar__media-button__input {
+    display: none;
+}
+
+.message-bar__media-button .icon {
+    font-size: large;
     font-weight: bold;
     color: var(--white-color);
 }
+
 
 .message-bar__message-box {
     width: 100%;

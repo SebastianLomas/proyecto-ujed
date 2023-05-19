@@ -1,37 +1,64 @@
 import "./css/MessageBar.css"
 import { BsUpload } from 'react-icons/bs'
+import { useState } from "react"
 
 function MessageBar(props) {
-    function writeMsg() {
-        const msg = document.getElementById('chat_message').value
+    function createMessage() {
+        //Crea un formdata a partir del elemento form. 
+        //Se agrego messageBox e imageBox por que formbox.reset daba error
+        const formBox = document.getElementById('messageForm')
+        const messageBox = document.getElementById('messageChat')
+        const imageBox = document.getElementById('imageChat')
+        const messageForm = new FormData(formBox)
 
-        if(msg) {
-            props.sendMsgProp(msg)
+        if(messageForm.get('messageChat')) {
+            sendMessageForm(messageForm)
+            messageBox.value = ""
+            imageBox.value = ""
         }
     }
 
+    function sendMessageForm(messageFormData) {
+        // Envia el formdata al servidor, regresa un mensaje si exitoso; error, si no.
+        const fetchOptions = {
+            method: 'POST',
+            body: messageFormData
+        }
+
+        fetch('http://localhost:8080/sendMessage', fetchOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.log(`Hubo un error: ${error}`)
+            })
+    }
+
     return (
-        <section className="message-bar">
-            <label className="message-bar__media-button" htmlFor="imageInput">
+        <form className="message-bar" id="messageForm">
+            <label className="message-bar__media-button" htmlFor="imageChat">
                 <input 
                     className="message-bar__media-button__input" 
                     type="file" accept="image/*" 
-                    id="imageInput">
+                    name="imageChat"
+                    id="imageChat">
                 </input>
                 <BsUpload className="icon" />
             </label>
             <section className="message-bar__message-box">
-                <label className="message-bar__message-area" htmlFor="chat_message">
+                <label className="message-bar__message-area" htmlFor="messageChat">
                     <textarea 
                         className="message-bar__message-box__text" 
-                        id="chat_message"
+                        name="messageChat"
+                        id="messageChat"
                         placeholder="Enviar Mensaje"></textarea>
-                    <div className="message-bar__button" onClick={writeMsg}>
+                    <div className="message-bar__button" onClick={createMessage}>
                         <span>&gt;</span>
                     </div>
                 </label>
             </section>
-        </section>
+        </form>
     )
 }
 

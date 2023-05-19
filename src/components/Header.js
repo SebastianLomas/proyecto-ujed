@@ -1,7 +1,7 @@
 import './css/Header.css'
 import logoUjed from '../assets/img/ujed-logo.png'
 
-function Header() {
+function Header(props) {
     return(
         <header className="header">
             <section className="header__logo-container">
@@ -9,7 +9,7 @@ function Header() {
             </section>
             <section className='header__info'>
                 <span className='header__info__name'>
-                    Nombre Apellido Apellido
+                    {props.userName}
                 </span>
             </section>
         </header>

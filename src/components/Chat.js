@@ -16,16 +16,17 @@ function Chat() {
         })
 
         ws.addEventListener('message',(ev) => {
-            const msgObject = ev.data.text()
-
-            msgObject.then(response => {
-                const msgCopy = [...msgs]
-                msgCopy.unshift(JSON.parse(response))
-                setMsg(msgCopy)
-                console.log(response)
-            })
-
-            console.log('Llego un mensaje')
+            //Aqui los usuarios reciben los post enviados por los directivos
+            let incomingMessage = JSON.parse(ev.data)
+            // Como seguridad, se hace una copia de state "msg" y el objeto regresado
+            // por el websocket sera guardado al principio de la copia y despues
+            // la copia reemplaza al original
+            // Esto renderiza los post automaticamente
+            const msgsCopy = [...msgs]
+            console.log(incomingMessage)
+            msgsCopy.unshift(incomingMessage)
+            setMsg(msgsCopy)
+            console.log(JSON.parse(ev.data))
         })
 
         ws.addEventListener('error', () => {
@@ -67,7 +68,7 @@ function Chat() {
                 {
                     msgs.map((item) => {
                         console.log(item)
-                        return <Post key={item.id} postText={item.msg} />
+                        return <Post key={item.id} postText={item.message} postImage={item.image} />
                     })
                 }
                 <MessageBar sendMsgProp={sendMsg}/>

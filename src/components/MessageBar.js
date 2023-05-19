@@ -1,6 +1,5 @@
 import "./css/MessageBar.css"
 import { BsUpload } from 'react-icons/bs'
-import { useState } from "react"
 
 function MessageBar(props) {
     function createMessage() {

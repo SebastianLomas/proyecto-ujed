@@ -12,7 +12,6 @@ const app = express()
 const upload = multer({storage})
 const wss = wsServer.createWSServer()
 let id = 0
-const staticFolder = path.join(__dirname,'static','uploads','images')
 
 app.use((req,res,next) => {
     // Para permitir peticiones desde el server dev de React

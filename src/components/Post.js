@@ -1,4 +1,3 @@
-import example from '../assets/img/example.jpeg'
 import "./css/Post.css"
 function Post(props) {
     // Si la imagen no es devuelta, solo renderiza el texto

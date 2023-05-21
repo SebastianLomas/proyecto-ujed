@@ -1,5 +1,5 @@
 import './css/Header.css'
-import logoUjed from '../assets/img/ujed-logo.png'
+import logoUjed from '../assets/img/ujed-logo-2.jpeg'
 
 function Header(props) {
     return(

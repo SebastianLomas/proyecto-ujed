@@ -1,8 +1,8 @@
 .chat {
-    width: 97%;
-    height: 100%;
-    justify-self: center;
-    align-self: flex-end;
+    width: 95%;
+    height: calc(100% - 5rem);
+    margin: 1rem auto 0;
+    position: relative;
 }
 
 .chat__header {
@@ -40,6 +40,6 @@
     align-items: center;
     padding: 0.8rem 0.2rem;
     padding-bottom: 3rem;
-    position: relative;
+    /*position: relative;*/
     background-color: var(--white-color);
 }

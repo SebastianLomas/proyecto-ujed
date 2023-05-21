@@ -2,7 +2,7 @@
 
 .header {
     width: 100%;
-    height: 4rem;
+    height: 2.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,7 +13,7 @@
 }
 
 .header__logo-container, .header__info__pic {
-    width: 2.5rem;
+    width: 2rem;
     /*height: 100%;
     background-color: var(--white-color);*/
 }

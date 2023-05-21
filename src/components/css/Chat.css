@@ -1,6 +1,6 @@
 .chat {
     width: 95%;
-    height: calc(100% - 5rem);
+    height: calc(100% - 3.5rem);
     margin: 1rem auto 0;
     position: relative;
 }
@@ -40,6 +40,7 @@
     align-items: center;
     padding: 0.8rem 0.2rem;
     padding-bottom: 3rem;
+    overflow-y: auto;
     /*position: relative;*/
     background-color: var(--white-color);
 }

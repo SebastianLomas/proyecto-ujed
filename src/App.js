@@ -8,18 +8,19 @@ import { useState } from 'react';
 function App() {
   const [logIn, setLogIn] = useState(false)
   const [userName, setUserName] = useState('Nombre del Usuario')
+  const [profilePicUrl , setProfilePicUrl] = useState(null)
 
   if(logIn) {
     return (
       <div className="App">
-        <Header userName={userName}/>
+        <Header userName={userName} profilePicUrl={profilePicUrl} />
         <Chat />
       </div>
     );
   } else {
     return (
       <div className="App">
-        <SignIn setUserName={setUserName} setLogIn={setLogIn}/>
+        <SignIn setUserName={setUserName} setLogIn={setLogIn} setProfilePicUrl={setProfilePicUrl}/>
       </div>
     );
   }

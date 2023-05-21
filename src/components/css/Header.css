@@ -12,13 +12,13 @@
     padding: 0rem 1rem;
 }
 
-.header__logo-container {
+.header__logo-container, .header__info__pic {
     width: 2.5rem;
     /*height: 100%;
     background-color: var(--white-color);*/
 }
 
-.header__logo-container__img {
+.header__logo-container__img, .header__info__pic img {
     width: 100%;
 }
 
@@ -30,9 +30,18 @@
     align-items: center;
 }
 
+.header__info__pic {
+    margin-right: 0.5rem;
+}
+
+.header__info__pic img {
+    border-radius: 100%;
+}
+
 .header__info__name {
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.1rem;
+    text-transform: capitalize;
     font-weight: bold;
     color: var(--white-color);
 }

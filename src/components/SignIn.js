@@ -41,6 +41,7 @@ function SignIn(props) {
                 if(user.email !== undefined) {
                     props.setUserName(result.user.displayName)
                     props.setLogIn(true)
+                    props.setProfilePicUrl(user.reloadUserInfo.photoUrl)
                 }
                 //console.log(user)
                 // ...

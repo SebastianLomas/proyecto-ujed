@@ -8,10 +8,10 @@ function Post(props) {
                 <header className="post__header">
                     <article className="post__header__poster">
                         <picture className="post__header__poster__pic">
-                            <img src={imageEx} alt="" />
+                            <img src={props.posterImage} alt="" />
                         </picture>
                         <span className="post__header__poster__username">
-                            posteador
+                            {props.posterName.toLowerCase()}
                         </span>
                     </article>
                     <p className="post__header__text">{props.postText}</p>
@@ -27,10 +27,10 @@ function Post(props) {
                 <header className="post__header">
                     <article className="post__header__poster">
                         <picture className="post__header__poster__pic">
-                            <img src={imageEx} alt="" />
+                            <img src={props.posterImage} alt="" />
                         </picture>
                         <span className="post__header__poster__username">
-                            posteador
+                            {props.posterName.toLowerCase()}
                         </span>
                     </article>
                     <p className="post__header__text">{props.postText}</p>

@@ -8,7 +8,11 @@ function MessageBar(props) {
         const formBox = document.getElementById('messageForm')
         const messageBox = document.getElementById('messageChat')
         const imageBox = document.getElementById('imageChat')
+        const posterName = props.userName
+        const posterImage = props.profilePicUrl
         const messageForm = new FormData(formBox)
+        messageForm.append('posterName',posterName)
+        messageForm.append('posterImage',posterImage)
 
         if(messageForm.get('messageChat')) {
             sendMessageForm(messageForm)

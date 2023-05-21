@@ -14,7 +14,7 @@ function App() {
     return (
       <div className="App">
         <Header userName={userName} profilePicUrl={profilePicUrl} />
-        <Chat />
+        <Chat userName={userName} profilePicUrl={profilePicUrl} />
       </div>
     );
   } else {

@@ -4,7 +4,7 @@ import { useState } from "react"
 
 import "./css/Chat.css"
 
-function Chat() {
+function Chat(props) {
     const [msgs, setMsg] = useState([])
 
     let ws = null
@@ -68,10 +68,10 @@ function Chat() {
                 {
                     msgs.map((item) => {
                         console.log(item)
-                        return <Post key={item.id} postText={item.message} postImage={item.image} />
+                        return <Post key={item.id} posterName={item.userName} posterImage={item.posterImage} postText={item.message} postImage={item.image} />
                     })
                 }
-                <MessageBar sendMsgProp={sendMsg}/>
+                <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl}/>
             </section>
         </section>
     )

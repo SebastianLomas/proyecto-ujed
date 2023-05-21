@@ -26,10 +26,10 @@ app.post('/sendMessage', upload.single('imageChat'), (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     res.status(200).json({message: 'Hola desde el server'})
     console.log(req.file === undefined ? 'No File Selected' : req.file.path)
-
+    console.log(req.body)
     // Si una imagen es creada, se envia la ruta a la carpéta static y el nombre del archivo
     // si no, se declara como null
-    const messageObject = {id: id, message: req.body.messageChat, image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`}
+    const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`}
     const messageJSON = JSON.stringify(messageObject)
     id++
     wsServer.sendToUsers(wss, messageJSON)

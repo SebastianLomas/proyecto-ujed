@@ -1,10 +1,41 @@
 .signin-screen {
+    width: 95%;
+    height: 98vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    border-radius: 1rem;
+    background-color: var(--white-color);
+}
+
+.signin-screen__header {
     width: 100%;
-    height: 100%;
+    height: 8rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.5rem 2rem;
+}
+
+.signin-screen__header-text {
+    width: 20rem;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    text-align: end;
+    text-transform: capitalize;
+}
+
+.signin-screen__header-logo {
+    width: 5rem;
+    margin-left: 0.5rem;
+}
+
+.signin-screen__header-logo img {
+    width: 100%;
 }
 
 .signin-screen__welcome {
-    width: 90%;
+    width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -13,23 +44,78 @@
 }
 
 .signin-screen__welcome-text {
-    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3.9rem;
+    text-transform: capitalize;
 }
 
-.signin-screen__welcome-logo {
-    display: block;
-    width: 8rem;
+.signin-screen__welcome-text h1 {
+    color: var(--black-char);
 }
 
-.signin-screen__welcome-logo img {
-    width: 100%;
+.signin-screen__welcome-text h1 p {
+    color: var(--ujed-color);
+}
+
+.signin-screen__welcome-text span {
+    font-size: 1.5rem;
+    color: var(--darker-background);
+}
+
+.signin-screen__welcome-text span span {
+    text-transform: uppercase;
 }
 
 .signin-screen__form {
-    width: 90%;
-    height: 10rem;
+    width: 100%;
+    height: 5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: auto;
+    margin-top: 1rem;
+}
+
+.signin-button {
+    width: 15rem;
+    height: 2.5rem;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    grid-template-rows: 100%;
+    justify-items: center;
+    align-items: center;
+    text-transform: capitalize;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    background-color: var(--ujed-color);
+    color: var(--white-color);
+}
+
+.signin-button span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin-screen__footer {
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin-screen__footer span {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1rem;
+    text-transform: capitalize;
+    color: var(--darker-background);
+}
+
+.signin-screen__footer span span {
+    font-weight: bold;
+    color: var(--black-char);
 }

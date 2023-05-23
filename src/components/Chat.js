@@ -43,22 +43,39 @@ function Chat(props) {
         ws.send(msgJson)
     }
 
+    function selectCategory(ev) {
+        // Cuando se clickea una pestaña, busca si ya existe una pestaña activada.
+        // Despues si el contenedor de la pestaña es cliqueado le agrega la clase
+        // Si es el hijo, se lo agrega el padre
+        const lastSelected = document.getElementsByClassName("chat__header__title-selected")
+        const tabSelected = ev.target
+        if(lastSelected[0]) {
+            lastSelected[0].classList.remove("chat__header__title-selected")
+        }
+
+        if(tabSelected.className === "chat__header__title") {
+            tabSelected.classList.add("chat__header__title-selected")
+        } else {
+            tabSelected.parentElement.classList.add("chat__header__title-selected")
+        }
+    }
+
     connectWS()
     
     return (
         <section className="chat">
             <header className="chat__header">
-                <article className="chat__header__title">
+                <article className="chat__header__title" onClick={selectCategory}>
                     <span className="chat__header__title__text">
                         general
                     </span>
                 </article>
-                <article className="chat__header__title chat__header__title-selected">
+                <article className="chat__header__title" onClick={selectCategory}>
                     <span className="chat__header__title__text">
                         directivo
                     </span>
                 </article>
-                <article className="chat__header__title">
+                <article className="chat__header__title" onClick={selectCategory}>
                     <span className="chat__header__title__text">
                         deportivo
                     </span>

@@ -23,12 +23,15 @@
 
 .chat__header__title-selected {
     background-color: var(--white-color);
+    cursor: pointer;
 }
 
 .chat__header__title__text {
     font-family: var(--text-font);
     font-size: 1.5rem;
     text-transform: capitalize;
+    user-select: none;
+    cursor: pointer;
     color: rgb(43, 43, 43);
 }
 

@@ -19,18 +19,9 @@ function Chat(props) {
         })
 
         ws.addEventListener('message',(ev) => {
-            //debugger
             //Aqui los usuarios reciben los post enviados por los directivos
             let incomingMessage = JSON.parse(ev.data)
-            // Como seguridad, se hace una copia de state "msg" y el objeto regresado
-            // por el websocket sera guardado al principio de la copia y despues
-            // la copia reemplaza al original
-            // Esto renderiza los post automaticamente
-            const msgsCopy = [...msgs]
-            console.log(incomingMessage)
-            msgsCopy.unshift(incomingMessage)
-            setMsg(msgsCopy)
-            console.log(JSON.parse(ev.data))
+            addToMessageState(incomingMessage)
         })
 
         ws.addEventListener('error', () => {
@@ -40,6 +31,16 @@ function Chat(props) {
         ws.addEventListener('close', () => {
             console.log('Sesion Finalizada')
         })  
+    }
+
+    function addToMessageState(incomingMessage) {
+        // Como seguridad, se hace una copia de state "msg" y el objeto regresado
+        // por el websocket sera guardado al principio de la copia y despues
+        // la copia reemplaza al original
+        // Esto renderiza los post automaticamente
+        const msgsCopy = [...msgs]
+        msgsCopy.unshift(incomingMessage)
+        setMsg(msgsCopy)
     }
 
     function sendMsg(message) {
@@ -99,7 +100,6 @@ function Chat(props) {
                 {
                     msgs.map((item) => {
                         if(item.tabDest === tabDest) {
-                            console.log(item)
                             return <Post key={item.id} posterName={item.userName} posterImage={item.posterImage} postText={item.message} postImage={item.image} />
                         }
                     })

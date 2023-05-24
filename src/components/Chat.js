@@ -5,6 +5,7 @@ import { useState } from "react"
 import "./css/Chat.css"
 
 function Chat(props) {
+    const [tabDest, setTabDest] = useState('general')
     const [msgs, setMsg] = useState([])
 
     let ws = null
@@ -12,10 +13,13 @@ function Chat(props) {
     function connectWS() {
         ws = new WebSocket(`ws://localhost:8000/`)
         ws.addEventListener('open', () => {
+            const connectedUserData = JSON.stringify({user: props.userName, tab: "general"})
+            ws.send(connectedUserData)
             console.log('Sesion iniciada')
         })
 
         ws.addEventListener('message',(ev) => {
+            //debugger
             //Aqui los usuarios reciben los post enviados por los directivos
             let incomingMessage = JSON.parse(ev.data)
             // Como seguridad, se hace una copia de state "msg" y el objeto regresado
@@ -47,16 +51,26 @@ function Chat(props) {
         // Cuando se clickea una pestaña, busca si ya existe una pestaña activada.
         // Despues si el contenedor de la pestaña es cliqueado le agrega la clase
         // Si es el hijo, se lo agrega el padre
+        ev.stopPropagation();
         const lastSelected = document.getElementsByClassName("chat__header__title-selected")
         const tabSelected = ev.target
-        if(lastSelected[0]) {
-            lastSelected[0].classList.remove("chat__header__title-selected")
-        }
-
-        if(tabSelected.className === "chat__header__title") {
-            tabSelected.classList.add("chat__header__title-selected")
-        } else {
-            tabSelected.parentElement.classList.add("chat__header__title-selected")
+        if(tabSelected !== lastSelected[0] && tabSelected !== lastSelected[0].children[0]) {
+            const connectedUserData = JSON.stringify({user: props.userName, tab: tabSelected.textContent})
+/*             console.log(connectedUserData)
+            console.log(ev) */
+            if(lastSelected[0]) {
+                lastSelected[0].classList.remove("chat__header__title-selected")
+            }
+    
+            if(tabSelected.className === "chat__header__title") {
+                tabSelected.classList.add("chat__header__title-selected")
+                ws.send(connectedUserData)
+                setTabDest(tabSelected.textContent)
+            } else {
+                tabSelected.parentElement.classList.add("chat__header__title-selected")
+                ws.send(connectedUserData)
+                setTabDest(tabSelected.textContent)
+            }
         }
     }
 
@@ -65,7 +79,7 @@ function Chat(props) {
     return (
         <section className="chat">
             <header className="chat__header">
-                <article className="chat__header__title" onClick={selectCategory}>
+                <article className="chat__header__title chat__header__title-selected" onClick={selectCategory}>
                     <span className="chat__header__title__text">
                         general
                     </span>
@@ -84,11 +98,13 @@ function Chat(props) {
             <section className="chat__body">
                 {
                     msgs.map((item) => {
-                        console.log(item)
-                        return <Post key={item.id} posterName={item.userName} posterImage={item.posterImage} postText={item.message} postImage={item.image} />
+                        if(item.tabDest === tabDest) {
+                            console.log(item)
+                            return <Post key={item.id} posterName={item.userName} posterImage={item.posterImage} postText={item.message} postImage={item.image} />
+                        }
                     })
                 }
-                <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl}/>
+                <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl} tabDest={tabDest}/>
             </section>
         </section>
     )

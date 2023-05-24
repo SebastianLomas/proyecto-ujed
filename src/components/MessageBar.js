@@ -13,6 +13,7 @@ function MessageBar(props) {
         const messageForm = new FormData(formBox)
         messageForm.append('posterName',posterName)
         messageForm.append('posterImage',posterImage)
+        messageForm.append('tabDest', props.tabDest)
 
         if(messageForm.get('messageChat')) {
             sendMessageForm(messageForm)

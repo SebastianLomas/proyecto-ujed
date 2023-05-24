@@ -11,6 +11,7 @@ const storage = multer.diskStorage({
 const app = express()
 const upload = multer({storage})
 const wss = wsServer.createWSServer()
+const connectedUsers = []
 let id = 0
 
 app.use((req,res,next) => {
@@ -26,10 +27,10 @@ app.post('/sendMessage', upload.single('imageChat'), (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     res.status(200).json({message: 'Hola desde el server'})
     console.log(req.file === undefined ? 'No File Selected' : req.file.path)
-    console.log(req.body)
+    console.log(req.body.tabDest)
     // Si una imagen es creada, se envia la ruta a la carpéta static y el nombre del archivo
     // si no, se declara como null
-    const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`}
+    const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`, tabDest: req.body.tabDest}
     const messageJSON = JSON.stringify(messageObject)
     id++
     wsServer.sendToUsers(wss, messageJSON)
@@ -37,10 +38,33 @@ app.post('/sendMessage', upload.single('imageChat'), (req, res) => {
 
 app.use('/static', express.static('static'))
 
+function addOrModifyConnectedUsers(message, ws) {
+    let userExist = false
+
+    if(connectedUsers.length) {
+        for(let i = 0;i < connectedUsers.length;i++) {
+            if(connectedUsers[i].user === message.user) {
+                connectedUsers[i].tab = message.tab
+                userExist = true
+            }
+        }
+
+        if(!userExist) {
+            connectedUsers.push({user: message.user, tab: message.tab, ws: ws})
+        }
+    } else {
+        connectedUsers.push({user: message.user, tab: message.tab, ws: ws})
+    }
+
+    //console.log(connectedUsers)
+}
+
 wss.on('connection', ws => {
     console.log("conexion")
     ws.on('message', (message) => {
-        wsServer.sendToUsers(wss,message)
+        const connectedUserData = JSON.parse(message)
+        addOrModifyConnectedUsers(connectedUserData, ws)
+        //console.log(connectedUserData)
     })
 
     ws.on('error', (event) => {

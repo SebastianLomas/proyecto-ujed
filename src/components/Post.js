@@ -27,7 +27,7 @@ function Post(props) {
                 <header className="post__header">
                     <article className="post__header__poster">
                         <picture className="post__header__poster__pic">
-                            <img src={props.posterImage} alt="" />
+                            <img src={props.posterImage} alt={`Imagen de perfil de ${props.posterName}`} referrerPolicy="no-referrer" />
                         </picture>
                         <span className="post__header__poster__username">
                             {props.posterName.toLowerCase()}

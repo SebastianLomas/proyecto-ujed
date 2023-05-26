@@ -10,7 +10,7 @@ function Header(props) {
             </section>
             <section className='header__info'>
                 <picture className='header__info__pic'>
-                    <img src={props.profilePicUrl} alt={`Foto de Perfil de ${props.userName}`}/>
+                    <img src={props.profilePicUrl} alt={`Foto de Perfil de ${props.userName}`} referrerPolicy='no-referrer'/>
                 </picture>
                 <span className='header__info__name'>
                     {props.userName.toLowerCase()}

@@ -4,7 +4,7 @@ import {FaGoogle} from 'react-icons/fa'
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 
 
 function SignIn(props) {
@@ -22,12 +22,18 @@ function SignIn(props) {
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
     const analytics = getAnalytics(app);
     const provider = new GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
+    onAuthStateChanged(auth, (currentUser) => {
+        props.setUserName(currentUser.displayName)
+        props.setLogIn(true)
+        props.setProfilePicUrl(currentUser.photoURL)
+    })
+
     function logIn() {
-        const auth = getAuth();
         signInWithPopup(auth, provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
@@ -41,7 +47,7 @@ function SignIn(props) {
                 if(user.email !== undefined) {
                     props.setUserName(result.user.displayName)
                     props.setLogIn(true)
-                    props.setProfilePicUrl(user.reloadUserInfo.photoUrl)
+                    props.setProfilePicUrl(user.photoURL)
                 }
                 //console.log(user)
                 // ...

@@ -2,7 +2,7 @@ import "./css/Post.css"
 import imageEx from '../assets/img/example.jpeg'
 function Post(props) {
     // Si la imagen no es devuelta, solo renderiza el texto
-    if(props.postImage) {
+    if(props.postImage && props.postImage !== "null") {
         return (
             <section className="post">
                 <header className="post__header">

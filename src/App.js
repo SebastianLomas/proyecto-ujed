@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore"
 
 import Header from './components/Header';
 import Chat from './components/Chat';
@@ -14,6 +15,8 @@ function App() {
     const [logIn, setLogIn] = useState(false)
     const [userName, setUserName] = useState('Nombre del Usuario')
     const [profilePicUrl , setProfilePicUrl] = useState(null)
+    //const [loadingDb, setLoadingDb] = useState(true)
+    let loadingDb = true
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -31,6 +34,7 @@ function App() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
     const analytics = getAnalytics(app);
+    const db = getFirestore(app)
     const provider = new GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
@@ -81,11 +85,58 @@ function App() {
         }
     })
 
+    async function getFromDb() {
+        const querySnapshot = await getDocs(collection(db, "posts"));
+        const formData = new FormData()
+        querySnapshot.forEach((doc) => {
+            const postData = doc.data()
+            formData.append('messageChat',postData.message)
+            formData.append('imageChat',postData.image)
+            formData.append('posterName',postData.userName)
+            formData.append('posterImage',postData.posterImage)
+            formData.append('tabDest', postData.tabDest)
+            sendLoadedPost(formData)
+        });
+    }
+
+    async function addToDb(userName, posterImage, message, image, tabDest) {
+        try {
+            const docRef = await addDoc(collection(db, "posts"), {
+              userName: userName,
+              posterImage: posterImage,
+              message: message,
+              image: image,
+              tabDest: tabDest
+        });
+            console.log("Document written with ID: ", docRef.id);
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+    }
+
+    function sendLoadedPost(messageFormData) {
+        // Envia el formdata al servidor, regresa un mensaje si exitoso; error, si no.
+        const fetchOptions = {
+            method: 'POST',
+            body: messageFormData
+        }
+        fetch('http://localhost:8080/sendMessage', fetchOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => {
+                console.log(`Hubo un error: ${error}`)
+            })
+    }
+
+    getFromDb()
+
     if(logIn) {
         return (
             <div className="App">
                 <Header userName={userName} profilePicUrl={profilePicUrl} logOut={logOutHandler}/>
-                <Chat userName={userName} profilePicUrl={profilePicUrl} />
+                <Chat userName={userName} profilePicUrl={profilePicUrl} db={{add: addToDb, loadingDb: loadingDb}} />
             </div>
     );
     } else {

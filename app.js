@@ -30,10 +30,17 @@ app.post('/sendMessage', upload.single('imageChat'), (req, res) => {
     console.log(req.body.tabDest)
     // Si una imagen es creada, se envia la ruta a la carpéta static y el nombre del archivo
     // si no, se declara como null
-    const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`, tabDest: req.body.tabDest}
-    const messageJSON = JSON.stringify(messageObject)
-    id++
-    wsServer.sendToUsers(wss, messageJSON)
+    if((typeof req.body.imageChat) === "string") {
+        const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.body.imageChat, tabDest: req.body.tabDest}
+        const messageJSON = JSON.stringify(messageObject)
+        id++
+        wsServer.sendToUsers(wss, messageJSON)
+    } else {
+        const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`, tabDest: req.body.tabDest}
+        const messageJSON = JSON.stringify(messageObject)
+        id++
+        wsServer.sendToUsers(wss, messageJSON)
+    }
 })
 
 app.use('/static', express.static('static'))

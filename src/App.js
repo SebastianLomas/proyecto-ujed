@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
 
 import Header from './components/Header';
 import Chat from './components/Chat';
@@ -34,12 +34,6 @@ function App() {
     const provider = new GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
-    onAuthStateChanged(auth, (currentUser) => {
-        setUserName(currentUser.displayName)
-        setLogIn(true)
-        setProfilePicUrl(currentUser.photoURL)
-    })
-
     function logInHandler() {
         signInWithPopup(auth, provider)
             .then((result) => {
@@ -49,15 +43,9 @@ function App() {
                 // The signed-in user info.
                 const user = result.user;
                 // IdP data available using getAdditionalUserInfo(result)
-                console.log(user)
-                
-                if(user.email !== undefined) {
-                    setUserName(result.user.displayName)
-                    setLogIn(true)
-                    setProfilePicUrl(user.photoURL)
-                }
-                //console.log(user)
-                // ...
+                setUserName(user.displayName)
+                setLogIn(true)
+                setProfilePicUrl(user.photoURL)
             }).catch((error) => {
                 // Handle Errors here.
                 const errorCode = error.code;
@@ -71,10 +59,32 @@ function App() {
 
     }
 
+    function logOutHandler() {
+      signOut(auth)
+      .then(() => {
+        localStorage.clear()
+        setLogIn(false)
+        console.log("Sesion Finalizada con Exito")
+      })
+      .catch(err => {
+        console.log(`Error al cerrar sesion: ${err}`)
+      })
+    }
+
+    onAuthStateChanged(auth, (currentUser) => {
+        if(currentUser) {
+          setUserName(currentUser.displayName)
+          setLogIn(true)
+          setProfilePicUrl(currentUser.photoURL)
+        } else {
+          console.log("Sesion Cerrada")
+        }
+    })
+
   if(logIn) {
     return (
       <div className="App">
-        <Header userName={userName} profilePicUrl={profilePicUrl} />
+        <Header userName={userName} profilePicUrl={profilePicUrl} logOut={logOutHandler}/>
         <Chat userName={userName} profilePicUrl={profilePicUrl} />
       </div>
     );

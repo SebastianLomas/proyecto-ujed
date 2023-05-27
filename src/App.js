@@ -11,11 +11,11 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  const [logIn, setLogIn] = useState(false)
-  const [userName, setUserName] = useState('Nombre del Usuario')
-  const [profilePicUrl , setProfilePicUrl] = useState(null)
+    const [logIn, setLogIn] = useState(false)
+    const [userName, setUserName] = useState('Nombre del Usuario')
+    const [profilePicUrl , setProfilePicUrl] = useState(null)
 
-      // Your web app's Firebase configuration
+    // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     const firebaseConfig = {
       apiKey: "AIzaSyCm67pLWeZX7cM60I6ysT_VNj22o2LsIKs",
@@ -36,65 +36,65 @@ function App() {
 
     function logInHandler() {
         signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                // IdP data available using getAdditionalUserInfo(result)
-                setUserName(user.displayName)
-                setLogIn(true)
-                setProfilePicUrl(user.photoURL)
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
-            });
+        .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            setUserName(user.displayName)
+            setLogIn(true)
+            setProfilePicUrl(user.photoURL)
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
 
     }
 
     function logOutHandler() {
-      signOut(auth)
-      .then(() => {
-        localStorage.clear()
-        setLogIn(false)
-        console.log("Sesion Finalizada con Exito")
-      })
-      .catch(err => {
-        console.log(`Error al cerrar sesion: ${err}`)
-      })
+        signOut(auth)
+        .then(() => {
+            localStorage.clear()
+            setLogIn(false)
+            console.log("Sesion Finalizada con Exito")
+        })
+        .catch(err => {
+            console.log(`Error al cerrar sesion: ${err}`)
+        })
     }
 
     onAuthStateChanged(auth, (currentUser) => {
         if(currentUser) {
-          setUserName(currentUser.displayName)
-          setLogIn(true)
-          setProfilePicUrl(currentUser.photoURL)
+            setUserName(currentUser.displayName)
+            setLogIn(true)
+            setProfilePicUrl(currentUser.photoURL)
         } else {
-          console.log("Sesion Cerrada")
+            console.log("Sesion Cerrada")
         }
     })
 
-  if(logIn) {
-    return (
-      <div className="App">
-        <Header userName={userName} profilePicUrl={profilePicUrl} logOut={logOutHandler}/>
-        <Chat userName={userName} profilePicUrl={profilePicUrl} />
-      </div>
+    if(logIn) {
+        return (
+            <div className="App">
+                <Header userName={userName} profilePicUrl={profilePicUrl} logOut={logOutHandler}/>
+                <Chat userName={userName} profilePicUrl={profilePicUrl} />
+            </div>
     );
-  } else {
-    return (
-      <div className="App">
-        <SignIn logInHandler={logInHandler} setUserName={setUserName} setLogIn={setLogIn} setProfilePicUrl={setProfilePicUrl}/>
-      </div>
-    );
-  }
+    } else {
+        return (
+        <div className="App">
+            <SignIn logInHandler={logInHandler} setUserName={setUserName} setLogIn={setLogIn} setProfilePicUrl={setProfilePicUrl}/>
+        </div>
+        );
+    }
 
 }
 

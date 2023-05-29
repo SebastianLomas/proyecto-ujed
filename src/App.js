@@ -9,16 +9,14 @@ import Chat from './components/Chat';
 import SignIn from './components/SignIn';
 
 import './App.css';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function App() {
-    debugger
     const userName = useRef("")
     const profilePicUrl = useRef("")
-    /*const [userName, setUserName] = useState('Nombre del Usuario')
-    const [profilePicUrl , setProfilePicUrl] = useState(null)*/
+
     const [logIn, setLogIn] = useState(false)
-    //const [loadingDb, setLoadingDb] = useState(true)
+
     let loadingDb = true
 
     // Your web app's Firebase configuration
@@ -78,14 +76,16 @@ function App() {
         })
     }
 
-    onAuthStateChanged(auth, (currentUser) => {
-        if(currentUser) {
-            userName.current = currentUser.displayName
-            profilePicUrl.current = currentUser.photoURL
-            setLogIn(true)
-        } else {
-            console.log("Sesion Cerrada")
-        }
+    useEffect(() => {
+        onAuthStateChanged(auth, (currentUser) => {
+            if(currentUser) {
+                userName.current = currentUser.displayName
+                profilePicUrl.current = currentUser.photoURL
+                setLogIn(true)
+            } else {
+                console.log("Sesion Cerrada")
+            }
+        })
     })
 
     async function getFromDb() {
@@ -134,6 +134,7 @@ function App() {
     }
 
     if(logIn) {
+        getFromDb()
         return (
             <div className="App">
                 <Header 

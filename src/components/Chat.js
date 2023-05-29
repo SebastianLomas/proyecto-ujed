@@ -41,11 +41,6 @@ function Chat(props) {
         const msgsCopy = [...msgs]
         msgsCopy.unshift(incomingMessage)
         setMsg(msgsCopy)
-        debugger
-        if(!props.db.loadingDb) {
-            props.db.add(incomingMessage.userName, incomingMessage.posterImage, incomingMessage.message, incomingMessage.image, incomingMessage.tabDest)
-        }
-
     }
 
     function sendMsg(message) {
@@ -105,9 +100,6 @@ function Chat(props) {
                 {
                     msgs.map((item) => {
                         if(item.tabDest === tabDest) {
-                            if(props.db.loadingDb) {
-                                props.db.loadingDb = false
-                            }
                             return <Post key={item.id} posterName={item.userName} posterImage={item.posterImage} postText={item.message} postImage={item.image} />
                         }
                     })

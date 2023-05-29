@@ -9,12 +9,15 @@ import Chat from './components/Chat';
 import SignIn from './components/SignIn';
 
 import './App.css';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 function App() {
+    debugger
+    const userName = useRef("")
+    const profilePicUrl = useRef("")
+    /*const [userName, setUserName] = useState('Nombre del Usuario')
+    const [profilePicUrl , setProfilePicUrl] = useState(null)*/
     const [logIn, setLogIn] = useState(false)
-    const [userName, setUserName] = useState('Nombre del Usuario')
-    const [profilePicUrl , setProfilePicUrl] = useState(null)
     //const [loadingDb, setLoadingDb] = useState(true)
     let loadingDb = true
 
@@ -47,9 +50,9 @@ function App() {
             // The signed-in user info.
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
-            setUserName(user.displayName)
+            userName.current = user.displayName
+            profilePicUrl.current = user.photoURL
             setLogIn(true)
-            setProfilePicUrl(user.photoURL)
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
@@ -77,9 +80,9 @@ function App() {
 
     onAuthStateChanged(auth, (currentUser) => {
         if(currentUser) {
-            setUserName(currentUser.displayName)
+            userName.current = currentUser.displayName
+            profilePicUrl.current = currentUser.photoURL
             setLogIn(true)
-            setProfilePicUrl(currentUser.photoURL)
         } else {
             console.log("Sesion Cerrada")
         }
@@ -130,19 +133,23 @@ function App() {
             })
     }
 
-    getFromDb()
-
     if(logIn) {
         return (
             <div className="App">
-                <Header userName={userName} profilePicUrl={profilePicUrl} logOut={logOutHandler}/>
-                <Chat userName={userName} profilePicUrl={profilePicUrl} db={{add: addToDb, loadingDb: loadingDb}} />
+                <Header 
+                    userName={userName.current} 
+                    profilePicUrl={profilePicUrl.current} 
+                    logOut={logOutHandler}/>
+                <Chat 
+                    userName={userName.current} 
+                    profilePicUrl={profilePicUrl.current} 
+                    db={{add: addToDb, loadingDb: loadingDb}} />
             </div>
     );
     } else {
         return (
         <div className="App">
-            <SignIn logInHandler={logInHandler} setUserName={setUserName} setLogIn={setLogIn} setProfilePicUrl={setProfilePicUrl}/>
+            <SignIn logInHandler={logInHandler} />
         </div>
         );
     }

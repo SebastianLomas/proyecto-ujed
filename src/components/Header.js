@@ -2,20 +2,20 @@ import { MdExitToApp } from 'react-icons/md'
 
 import './css/Header.css'
 import logoUjed from '../assets/img/ujed-logo-2.jpeg'
-import { useState } from 'react'
+import { useRef } from 'react'
 
 function Header(props) {
-    const [showMenu, setShowMenu] = useState(false)
+    const showMenu = useRef(false)
     function menuShowHandler(ev) {
         ev.stopPropagation()
         const element = document.getElementsByClassName("header__info__menu")
 
-        if(!showMenu) {
+        if(!showMenu.current) {
             element[0].style.display = "flex"
-            setShowMenu(true)
+            showMenu.current = true
         } else {
             element[0].style.display = "none"
-            setShowMenu(false)
+            showMenu.current = false
         }
     }
 

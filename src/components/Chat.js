@@ -100,12 +100,12 @@ function Chat(props) {
                 {
                     msgs.map((item) => {
                         if(item.tabDest === tabDest) {
-                            return <Post key={item.id} posterName={item.userName} posterImage={item.posterImage} postText={item.message} postImage={item.image} />
+                            return <Post key={item.id} posterName={item.userName} posterImage={item.posterImage} postText={item.message} postImage={item.image}/>
                         }
                     })
 
                 }
-                <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl} tabDest={tabDest}/>
+                <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl} tabDest={tabDest} addToDb={props.db.add}/>
             </section>
         </section>
     )

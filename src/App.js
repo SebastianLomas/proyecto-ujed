@@ -14,10 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 function App() {
     const userName = useRef("")
     const profilePicUrl = useRef("")
-
     const [logIn, setLogIn] = useState(false)
-
-    let loadingDb = true
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -134,7 +131,6 @@ function App() {
     }
 
     if(logIn) {
-        getFromDb()
         return (
             <div className="App">
                 <Header 
@@ -144,7 +140,7 @@ function App() {
                 <Chat 
                     userName={userName.current} 
                     profilePicUrl={profilePicUrl.current} 
-                    db={{add: addToDb, loadingDb: loadingDb}} />
+                    db={{add: addToDb}} />
             </div>
     );
     } else {

@@ -134,8 +134,7 @@ function App() {
         return (
             <div className="App">
                 <Header 
-                    userName={userName.current} 
-                    profilePicUrl={profilePicUrl.current} 
+                    userData={{name: userName.current, profilePic: profilePicUrl.current}}
                     logOut={logOutHandler}/>
                 <Chat 
                     userName={userName.current} 

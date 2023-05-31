@@ -26,10 +26,10 @@ function Header(props) {
             </section>
             <section className='header__info' onClick={menuShowHandler}>
                 <picture className='header__info__pic'>
-                    <img src={props.profilePicUrl} alt={`Foto de Perfil de ${props.userName}`} referrerPolicy='no-referrer'/>
+                    <img src={props.userData.profilePic} alt={`Foto de Perfil de ${props.userData.name}`} referrerPolicy='no-referrer'/>
                 </picture>
                 <span className='header__info__name'>
-                    {props.userName.toLowerCase()}
+                    {props.userData.name.toLowerCase()}
                 </span>
                 <section className='header__info__menu' onClick={props.logOut}>
                     <MdExitToApp className='header__info__menu-icon'/>

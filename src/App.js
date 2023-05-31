@@ -47,6 +47,7 @@ function App() {
             // IdP data available using getAdditionalUserInfo(result)
             userName.current = user.displayName
             profilePicUrl.current = user.photoURL
+            localStorage.setItem("loggedIn",true)
             setLogIn(true)
         }).catch((error) => {
             // Handle Errors here.
@@ -85,17 +86,27 @@ function App() {
         })
     })
 
+    const lastsBrought = useRef([])
+
     async function getFromDb() {
         const querySnapshot = await getDocs(collection(db, "posts"));
-        const formData = new FormData()
         querySnapshot.forEach((doc) => {
-            const postData = doc.data()
-            formData.append('messageChat',postData.message)
-            formData.append('imageChat',postData.image)
-            formData.append('posterName',postData.userName)
-            formData.append('posterImage',postData.posterImage)
-            formData.append('tabDest', postData.tabDest)
-            sendLoadedPost(formData)
+            debugger
+            let exists = false
+            const postData = Object.assign({id: doc.id}, doc.data())
+            if(lastsBrought.current.length > 0) {
+                lastsBrought.current.forEach(obj => {
+                    if(obj.id === postData.id) {
+                        exists = true
+                    }
+                })
+            }
+
+            if(!exists) {
+                console.table(postData)
+                lastsBrought.current.push(postData)
+            }
+            //console.log(`Id de tabla: ${doc.id}`)
         });
     }
 
@@ -114,23 +125,8 @@ function App() {
         }
     }
 
-    function sendLoadedPost(messageFormData) {
-        // Envia el formdata al servidor, regresa un mensaje si exitoso; error, si no.
-        const fetchOptions = {
-            method: 'POST',
-            body: messageFormData
-        }
-        fetch('http://localhost:8080/sendMessage', fetchOptions)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-            })
-            .catch(error => {
-                console.log(`Hubo un error: ${error}`)
-            })
-    }
-
-    if(logIn) {
+    if(logIn && localStorage.getItem('loggedIn')) {
+        getFromDb()
         return (
             <div className="App">
                 <Header 
@@ -141,7 +137,13 @@ function App() {
                     profilePicUrl={profilePicUrl.current} 
                     db={{add: addToDb}} />
             </div>
-    );
+    )
+    } else if(!logIn && localStorage.getItem("loggedIn")) {
+        return (
+            <div className="App">
+                loading...
+            </div>
+        )
     } else {
         return (
         <div className="App">

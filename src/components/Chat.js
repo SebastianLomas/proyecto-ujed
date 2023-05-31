@@ -1,16 +1,21 @@
 import Post from "./Post"
 import MessageBar from "./MessageBar"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 
 import "./css/Chat.css"
+import "./css/Post.css"
 
 function Chat(props) {
     const [tabDest, setTabDest] = useState('general')
     const [msgs, setMsg] = useState([])
+    const loadedDb = useRef(false)
 
     useEffect(() => {
         //console.log(props.db.loadedData)
-        props.db.get(addToMessageState)
+        if(!loadedDb.current) {
+            props.db.get(addToMessageState)
+            loadedDb.current = true
+        }
     })
 
     let ws = null
@@ -39,13 +44,54 @@ function Chat(props) {
     }
 
     function addToMessageState(incomingMessage) {
-        // Como seguridad, se hace una copia de state "msg" y el objeto regresado
-        // por el websocket sera guardado al principio de la copia y despues
-        // la copia reemplaza al original
-        // Esto renderiza los post automaticamente
-        const msgsCopy = [...msgs]
-        msgsCopy.unshift(incomingMessage)
-        setMsg(msgsCopy)
+        let section = document.createElement("section");
+        section.className = "post";
+      
+        let header = document.createElement("header");
+        header.className = "post__header";
+      
+        let article = document.createElement("article");
+        article.className = "post__header__poster";
+      
+        let picture = document.createElement("picture");
+        picture.className = "post__header__poster__pic";
+      
+        let img = document.createElement("img");
+        img.src = incomingMessage.posterImage;
+        img.alt = "";
+      
+        picture.appendChild(img);
+        article.appendChild(picture);
+      
+        let username = document.createElement("span");
+        username.className = "post__header__poster__username";
+        username.textContent = incomingMessage.userName.toLowerCase();
+        article.appendChild(username);
+      
+        header.appendChild(article);
+      
+        let text = document.createElement("p");
+        text.className = "post__header__text";
+        text.textContent = incomingMessage.message;
+        header.appendChild(text);
+      
+        section.appendChild(header);
+      
+        if(incomingMessage.image) {
+            let pictureFrame = document.createElement("picture");
+            pictureFrame.className = "post__frame";
+          
+            let postImage = document.createElement("img");
+            postImage.className = "post__frame__pic";
+            postImage.src = incomingMessage.image;
+            postImage.alt = "post";
+          
+            pictureFrame.appendChild(postImage);
+            section.appendChild(pictureFrame);
+        }
+
+        //document.getElementById('chatBody').appendChild(section)
+        document.getElementById('chatBody').insertBefore(section, document.getElementById('chatBody').firstChild)
     }
 
     function sendMsg(message) {
@@ -101,15 +147,7 @@ function Chat(props) {
                     </span>
                 </article>
             </header>
-            <section className="chat__body">
-                {
-                    msgs.map((item) => {
-                        if(item.tabDest === tabDest) {
-                            return <Post key={item.id} posterName={item.userName} posterImage={item.posterImage} postText={item.message} postImage={item.image}/>
-                        }
-                    })
-
-                }
+            <section className="chat__body" id="chatBody">
                 <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl} tabDest={tabDest} addToDb={props.db.add}/>
             </section>
         </section>

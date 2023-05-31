@@ -88,10 +88,9 @@ function App() {
 
     const lastsBrought = useRef([])
 
-    async function getFromDb() {
+    async function getFromDb(callback) {
         const querySnapshot = await getDocs(collection(db, "posts"));
         querySnapshot.forEach((doc) => {
-            debugger
             let exists = false
             const postData = Object.assign({id: doc.id}, doc.data())
             if(lastsBrought.current.length > 0) {
@@ -103,6 +102,9 @@ function App() {
             }
 
             if(!exists) {
+                if(callback) {
+                    callback(postData)
+                }
                 console.table(postData)
                 lastsBrought.current.push(postData)
             }
@@ -126,7 +128,6 @@ function App() {
     }
 
     if(logIn && localStorage.getItem('loggedIn')) {
-        getFromDb()
         return (
             <div className="App">
                 <Header 
@@ -135,7 +136,8 @@ function App() {
                 <Chat 
                     userName={userName.current} 
                     profilePicUrl={profilePicUrl.current} 
-                    db={{add: addToDb}} />
+                    db={{add: addToDb, get: getFromDb, loadedData: lastsBrought.current}}
+                    />
             </div>
     )
     } else if(!logIn && localStorage.getItem("loggedIn")) {

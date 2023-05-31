@@ -1,12 +1,17 @@
 import Post from "./Post"
 import MessageBar from "./MessageBar"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import "./css/Chat.css"
 
 function Chat(props) {
     const [tabDest, setTabDest] = useState('general')
     const [msgs, setMsg] = useState([])
+
+    useEffect(() => {
+        //console.log(props.db.loadedData)
+        props.db.get(addToMessageState)
+    })
 
     let ws = null
 

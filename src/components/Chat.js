@@ -45,7 +45,6 @@ function Chat(props) {
     }
 
     function addToMessageState(incomingMessage) {
-        debugger
         let section = document.createElement("section");
         section.className = "post";
       
@@ -112,17 +111,20 @@ function Chat(props) {
             const connectedUserData = JSON.stringify({user: props.userName, tab: tabSelected.textContent})
 /*             console.log(connectedUserData)
             console.log(ev) */
+            const posts = [...document.getElementsByClassName("post")]
+            posts.forEach(node => {
+                document.getElementById('chatBody').removeChild(node)
+            })
+
             if(lastSelected[0]) {
                 lastSelected[0].classList.remove("chat__header__title-selected")
             }
     
             if(tabSelected.className === "chat__header__title") {
                 tabSelected.classList.add("chat__header__title-selected")
-                ws.send(connectedUserData)
                 setTabDest(tabSelected.textContent)
             } else {
                 tabSelected.parentElement.classList.add("chat__header__title-selected")
-                ws.send(connectedUserData)
                 setTabDest(tabSelected.textContent)
             }
         }

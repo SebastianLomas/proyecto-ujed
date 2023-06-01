@@ -15,6 +15,7 @@ function Chat(props) {
         if(!loadedDb.current) {
             props.db.get(addToMessageState)
             loadedDb.current = true
+            connectWS()
         }
     })
 
@@ -44,6 +45,7 @@ function Chat(props) {
     }
 
     function addToMessageState(incomingMessage) {
+        debugger
         let section = document.createElement("section");
         section.className = "post";
       
@@ -125,8 +127,6 @@ function Chat(props) {
             }
         }
     }
-
-    connectWS()
     
     return (
         <section className="chat">

@@ -6,7 +6,7 @@ import "./css/Chat.css"
 import "./css/Post.css"
 
 function Chat(props) {
-    const [msgs, setMsg] = useState([])
+    const [update, setUpdate] = useState(false)
     const tabDest = useRef('general')
     const loadedDb = useRef(false)
 
@@ -106,6 +106,7 @@ function Chat(props) {
         // Cuando se clickea una pestaña, busca si ya existe una pestaña activada.
         // Despues si el contenedor de la pestaña es cliqueado le agrega la clase
         // Si es el hijo, se lo agrega el padre
+        console.log(tabDest)
         ev.stopPropagation();
         const lastSelected = document.getElementsByClassName("chat__header__title-selected")
         const tabSelected = ev.target
@@ -121,6 +122,8 @@ function Chat(props) {
                 tabDest.current = tabSelected.textContent
             }
 
+            forceUpdate()
+
             const posts = [...document.getElementsByClassName("post")]
             posts.forEach(node => {
                 document.getElementById('chatBody').removeChild(node)
@@ -129,7 +132,15 @@ function Chat(props) {
             props.db.loadedData.forEach(postObj => {
                 addToMessageState(postObj)
             })
+            console.log(tabDest)
+        }
+    }
 
+    function forceUpdate() {
+        if(update) {
+            setUpdate(false)
+        } else {
+            setUpdate(true)
         }
     }
     
@@ -153,7 +164,7 @@ function Chat(props) {
                 </article>
             </header>
             <section className="chat__body" id="chatBody">
-                <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl} tabDest={tabDest} addToDb={props.db.add}/>
+                <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl} tabDest={tabDest.current} addToDb={props.db.add}/>
             </section>
         </section>
     )

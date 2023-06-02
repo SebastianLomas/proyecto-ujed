@@ -6,8 +6,8 @@ import "./css/Chat.css"
 import "./css/Post.css"
 
 function Chat(props) {
-    const [tabDest, setTabDest] = useState('general')
     const [msgs, setMsg] = useState([])
+    const tabDest = useRef('general')
     const loadedDb = useRef(false)
 
     useEffect(() => {
@@ -45,54 +45,56 @@ function Chat(props) {
     }
 
     function addToMessageState(incomingMessage) {
-        let section = document.createElement("section");
-        section.className = "post";
-      
-        let header = document.createElement("header");
-        header.className = "post__header";
-      
-        let article = document.createElement("article");
-        article.className = "post__header__poster";
-      
-        let picture = document.createElement("picture");
-        picture.className = "post__header__poster__pic";
-      
-        let img = document.createElement("img");
-        img.src = incomingMessage.posterImage;
-        img.alt = "";
-      
-        picture.appendChild(img);
-        article.appendChild(picture);
-      
-        let username = document.createElement("span");
-        username.className = "post__header__poster__username";
-        username.textContent = incomingMessage.userName.toLowerCase();
-        article.appendChild(username);
-      
-        header.appendChild(article);
-      
-        let text = document.createElement("p");
-        text.className = "post__header__text";
-        text.textContent = incomingMessage.message;
-        header.appendChild(text);
-      
-        section.appendChild(header);
-      
-        if(incomingMessage.image) {
-            let pictureFrame = document.createElement("picture");
-            pictureFrame.className = "post__frame";
+        if(incomingMessage.tabDest === tabDest.current) {
+            let section = document.createElement("section");
+            section.className = "post";
           
-            let postImage = document.createElement("img");
-            postImage.className = "post__frame__pic";
-            postImage.src = incomingMessage.image;
-            postImage.alt = "post";
+            let header = document.createElement("header");
+            header.className = "post__header";
           
-            pictureFrame.appendChild(postImage);
-            section.appendChild(pictureFrame);
+            let article = document.createElement("article");
+            article.className = "post__header__poster";
+          
+            let picture = document.createElement("picture");
+            picture.className = "post__header__poster__pic";
+          
+            let img = document.createElement("img");
+            img.src = incomingMessage.posterImage;
+            img.alt = "";
+          
+            picture.appendChild(img);
+            article.appendChild(picture);
+          
+            let username = document.createElement("span");
+            username.className = "post__header__poster__username";
+            username.textContent = incomingMessage.userName.toLowerCase();
+            article.appendChild(username);
+          
+            header.appendChild(article);
+          
+            let text = document.createElement("p");
+            text.className = "post__header__text";
+            text.textContent = incomingMessage.message;
+            header.appendChild(text);
+          
+            section.appendChild(header);
+          
+            if(incomingMessage.image) {
+                let pictureFrame = document.createElement("picture");
+                pictureFrame.className = "post__frame";
+              
+                let postImage = document.createElement("img");
+                postImage.className = "post__frame__pic";
+                postImage.src = incomingMessage.image;
+                postImage.alt = "post";
+              
+                pictureFrame.appendChild(postImage);
+                section.appendChild(pictureFrame);
+            }
+    
+            //document.getElementById('chatBody').appendChild(section)
+            document.getElementById('chatBody').insertBefore(section, document.getElementById('chatBody').firstChild)
         }
-
-        //document.getElementById('chatBody').appendChild(section)
-        document.getElementById('chatBody').insertBefore(section, document.getElementById('chatBody').firstChild)
     }
 
     function sendMsg(message) {
@@ -108,25 +110,26 @@ function Chat(props) {
         const lastSelected = document.getElementsByClassName("chat__header__title-selected")
         const tabSelected = ev.target
         if(tabSelected !== lastSelected[0] && tabSelected !== lastSelected[0].children[0]) {
-            const connectedUserData = JSON.stringify({user: props.userName, tab: tabSelected.textContent})
-/*             console.log(connectedUserData)
-            console.log(ev) */
+            if(lastSelected[0]) {
+                lastSelected[0].classList.remove("chat__header__title-selected")
+            }
+            if(tabSelected.className === "chat__header__title") {
+                tabSelected.classList.add("chat__header__title-selected")
+                tabDest.current = tabSelected.textContent
+            } else {
+                tabSelected.parentElement.classList.add("chat__header__title-selected")
+                tabDest.current = tabSelected.textContent
+            }
+
             const posts = [...document.getElementsByClassName("post")]
             posts.forEach(node => {
                 document.getElementById('chatBody').removeChild(node)
             })
 
-            if(lastSelected[0]) {
-                lastSelected[0].classList.remove("chat__header__title-selected")
-            }
-    
-            if(tabSelected.className === "chat__header__title") {
-                tabSelected.classList.add("chat__header__title-selected")
-                setTabDest(tabSelected.textContent)
-            } else {
-                tabSelected.parentElement.classList.add("chat__header__title-selected")
-                setTabDest(tabSelected.textContent)
-            }
+            props.db.loadedData.forEach(postObj => {
+                addToMessageState(postObj)
+            })
+
         }
     }
     

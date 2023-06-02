@@ -25,7 +25,6 @@ app.use((req,res,next) => {
 app.post('/sendMessage', upload.single('imageChat'), (req, res) => {
     // Al fetch se le regresa un objeto cuando es exitoso
     res.setHeader('Content-Type', 'application/json')
-    res.status(200).json({message: 'Hola desde el server'})
     console.log(req.file === undefined ? 'No File Selected' : req.file.path)
     console.log(req.body.tabDest)
     // Si una imagen es creada, se envia la ruta a la carpéta static y el nombre del archivo
@@ -34,11 +33,13 @@ app.post('/sendMessage', upload.single('imageChat'), (req, res) => {
         const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.body.imageChat, tabDest: req.body.tabDest}
         const messageJSON = JSON.stringify(messageObject)
         id++
+        res.status(200).json(messageObject)
         wsServer.sendToUsers(wss, messageJSON)
     } else {
         const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`, tabDest: req.body.tabDest}
         const messageJSON = JSON.stringify(messageObject)
         id++
+        res.status(200).json(messageObject)
         wsServer.sendToUsers(wss, messageJSON)
     }
 })

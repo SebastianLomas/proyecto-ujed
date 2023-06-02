@@ -32,6 +32,7 @@ function MessageBar(props) {
         fetch('http://localhost:8080/sendMessage', fetchOptions)
             .then(response => response.json())
             .then(data => {
+                console.table(data)
                 props.addToDb(data.userName, data.posterImage, data.message, data.image, data.tabDest)
             })
             .catch(error => {

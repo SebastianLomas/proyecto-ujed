@@ -15,6 +15,7 @@ function App() {
     const userName = useRef("")
     const profilePicUrl = useRef("")
     const [logIn, setLogIn] = useState(false)
+    const initialLoad = useRef(false)
 
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -136,7 +137,12 @@ function App() {
                 <Chat 
                     userName={userName.current} 
                     profilePicUrl={profilePicUrl.current} 
-                    db={{add: addToDb, get: getFromDb, loadedData: lastsBrought.current}}
+                    db={
+                        {
+                            add: addToDb, 
+                            get: getFromDb, 
+                            loadedData: lastsBrought.current,
+                            loadedDb: initialLoad}}
                     />
             </div>
     )

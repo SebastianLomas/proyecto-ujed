@@ -8,13 +8,13 @@ import "./css/Post.css"
 function Chat(props) {
     const [update, setUpdate] = useState(false)
     const tabDest = useRef('general')
-    const loadedDb = useRef(false)
+    //const loadedDb = useRef(false)
 
     useEffect(() => {
         //console.log(props.db.loadedData)
-        if(!loadedDb.current) {
+        if(!props.db.loadedDb.current) {
             props.db.get(addToMessageState)
-            loadedDb.current = true
+            props.db.loadedDb.current = true
             connectWS()
         }
     })

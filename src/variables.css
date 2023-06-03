@@ -1,0 +1,9 @@
+:root {
+    --background-color: rgb(231, 231, 231);
+    --darker-background: rgb(184, 180, 180);
+    --ujed-color: rgb(177, 24, 48);
+    --white-color: rgb(250, 249, 249);
+    --black-char: rgb(18, 17, 17);
+
+    --text-font: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}

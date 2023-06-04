@@ -30,16 +30,33 @@ app.post('/sendMessage', upload.single('imageChat'), (req, res) => {
     // Si una imagen es creada, se envia la ruta a la carpéta static y el nombre del archivo
     // si no, se declara como null
     if((typeof req.body.imageChat) === "string") {
-        const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.body.imageChat, tabDest: req.body.tabDest}
+        const messageObject = {
+            id: id, 
+            userName: req.body.posterName, 
+            posterImage: req.body.posterImage, 
+            message: req.body.messageChat, 
+            image: req.body.imageChat, 
+            tabDest: req.body.tabDest, 
+            postDate: req.body.postDate
+        }
         const messageJSON = JSON.stringify(messageObject)
         id++
         res.status(200).json(messageObject)
         wsServer.sendToUsers(wss, messageJSON)
     } else {
-        const messageObject = {id: id, userName: req.body.posterName, posterImage: req.body.posterImage, message: req.body.messageChat, image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`, tabDest: req.body.tabDest}
+        const messageObject = {
+            id: id, 
+            userName: req.body.posterName, 
+            posterImage: req.body.posterImage, 
+            message: req.body.messageChat, 
+            image: req.file === undefined ? null : `http://localhost:8080/static/uploads/images/${req.file.originalname}`, 
+            tabDest: req.body.tabDest, 
+            postDate: req.body.postDate
+        }
         const messageJSON = JSON.stringify(messageObject)
         id++
         res.status(200).json(messageObject)
+        console.log(req.body.postDate)
         wsServer.sendToUsers(wss, messageJSON)
     }
 })

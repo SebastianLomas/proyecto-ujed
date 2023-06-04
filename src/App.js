@@ -113,14 +113,15 @@ function App() {
         });
     }
 
-    async function addToDb(userName, posterImage, message, image, tabDest) {
+    async function addToDb(userName, posterImage, message, image, tabDest, postDate) {
         try {
             const docRef = await addDoc(collection(db, "posts"), {
               userName: userName,
               posterImage: posterImage,
               message: message,
               image: image,
-              tabDest: tabDest
+              tabDest: tabDest,
+              postDate: postDate
         });
             console.log("Document written with ID: ", docRef.id);
         } catch (e) {

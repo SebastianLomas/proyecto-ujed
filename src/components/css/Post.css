@@ -44,6 +44,13 @@
     text-transform: capitalize;
 }
 
+.post__header__post-date {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.7rem;
+    margin-left: 0.2rem;
+    color: var(--darker-background);
+}
+
 .post__header__text {
     font-family: Arial, Helvetica, sans-serif;
     text-align: justify;

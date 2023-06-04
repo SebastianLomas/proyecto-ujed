@@ -11,9 +11,11 @@ function MessageBar(props) {
         const posterName = props.userName
         const posterImage = props.profilePicUrl
         const messageForm = new FormData(formBox)
-        messageForm.append('posterName',posterName)
-        messageForm.append('posterImage',posterImage)
-        messageForm.append('tabDest', props.tabDest)
+        const postDate = Date.now()
+        messageForm.set('posterName',posterName)
+        messageForm.set('posterImage',posterImage)
+        messageForm.set('tabDest', props.tabDest)
+        messageForm.set('postDate',postDate)
 
         if(messageForm.get('messageChat')) {
             sendMessageForm(messageForm)
@@ -33,7 +35,7 @@ function MessageBar(props) {
             .then(response => response.json())
             .then(data => {
                 console.table(data)
-                props.addToDb(data.userName, data.posterImage, data.message, data.image, data.tabDest)
+                props.addToDb(data.userName, data.posterImage, data.message, data.image, data.tabDest, data.postDate)
             })
             .catch(error => {
                 console.log(`Hubo un error: ${error}`)

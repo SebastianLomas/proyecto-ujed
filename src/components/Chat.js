@@ -46,7 +46,6 @@ function Chat(props) {
 
     function addToMessageState(incomingMessage) {
         const postedDate = new Date(parseInt(incomingMessage.postDate))
-        console.log(postedDate.getDate())
         if(incomingMessage.tabDest === tabDest.current) {
             let section = document.createElement("section");
             section.className = "post";
@@ -113,7 +112,6 @@ function Chat(props) {
         // Cuando se clickea una pestaña, busca si ya existe una pestaña activada.
         // Despues si el contenedor de la pestaña es cliqueado le agrega la clase
         // Si es el hijo, se lo agrega el padre
-        console.log(tabDest)
         ev.stopPropagation();
         const lastSelected = document.getElementsByClassName("chat__header__title-selected")
         const tabSelected = ev.target
@@ -141,7 +139,6 @@ function Chat(props) {
             props.db.loadedData.forEach(postObj => {
                 addToMessageState(postObj)
             })
-            console.log(tabDest)
         }
     }
 

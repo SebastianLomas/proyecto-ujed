@@ -106,7 +106,6 @@ function App() {
                 if(callback) {
                     callback(postData)
                 }
-                console.table(postData)
                 lastsBrought.current.push(postData)
             }
             //console.log(`Id de tabla: ${doc.id}`)

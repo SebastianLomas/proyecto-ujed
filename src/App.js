@@ -67,6 +67,7 @@ function App() {
         signOut(auth)
         .then(() => {
             localStorage.clear()
+            initialLoad.current = false
             setLogIn(false)
             console.log("Sesion Finalizada con Exito")
         })

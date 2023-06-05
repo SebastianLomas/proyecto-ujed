@@ -103,13 +103,36 @@ function App() {
             }
 
             if(!exists) {
-                if(callback) {
+                /*if(callback) {
                     callback(postData)
-                }
+                }*/
                 lastsBrought.current.push(postData)
             }
             //console.log(`Id de tabla: ${doc.id}`)
         });
+
+        for(let i = 0;i < lastsBrought.current.length;i++) {
+            const current = lastsBrought.current[i].postDate
+            for(let x = 0;x < lastsBrought.current.length;x++) {
+                const compareTo = lastsBrought.current[x].postDate
+
+                if(current < compareTo) {
+                    const oldCurrent = lastsBrought.current[i]
+                    lastsBrought.current[i] = lastsBrought.current[x]
+                    lastsBrought.current[x] = oldCurrent
+                } else {
+                    continue
+                }
+            }
+        }
+
+        if(callback) {
+            lastsBrought.current.forEach(data => {
+                callback(data)
+            })
+        }
+
+        console.table(lastsBrought)
     }
 
     async function addToDb(userName, posterImage, message, image, tabDest, postDate) {

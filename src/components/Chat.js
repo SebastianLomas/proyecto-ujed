@@ -45,10 +45,7 @@ function Chat(props) {
     }
 
     function addToMessageState(incomingMessage) {
-<<<<<<< HEAD
         const postedDate = new Date(parseInt(incomingMessage.postDate))
-=======
->>>>>>> bf31e3b6def96a89bf34ee890257c44c5c53af7a
         if(incomingMessage.tabDest === tabDest.current) {
             let section = document.createElement("section");
             section.className = "post";
@@ -73,16 +70,12 @@ function Chat(props) {
             username.className = "post__header__poster__username";
             username.textContent = incomingMessage.userName.toLowerCase();
             article.appendChild(username);
-<<<<<<< HEAD
 
             const postDate = document.createElement("span")
             postDate.className = "post__header__post-date"
             postDate.textContent = ` • ${postedDate.toLocaleDateString('en-GB')} • ${postedDate.toLocaleTimeString([],{hour: '2-digit', minute: '2-digit', hourCycle: 'h23'})}`
           
             article.appendChild(postDate)
-=======
-          
->>>>>>> bf31e3b6def96a89bf34ee890257c44c5c53af7a
             header.appendChild(article);
           
             let text = document.createElement("p");
@@ -119,10 +112,6 @@ function Chat(props) {
         // Cuando se clickea una pestaña, busca si ya existe una pestaña activada.
         // Despues si el contenedor de la pestaña es cliqueado le agrega la clase
         // Si es el hijo, se lo agrega el padre
-<<<<<<< HEAD
-=======
-        console.log(tabDest)
->>>>>>> bf31e3b6def96a89bf34ee890257c44c5c53af7a
         ev.stopPropagation();
         const lastSelected = document.getElementsByClassName("chat__header__title-selected")
         const tabSelected = ev.target
@@ -145,18 +134,11 @@ function Chat(props) {
                 document.getElementById('chatBody').removeChild(node)
             })
 
-<<<<<<< HEAD
             props.db.get()
 
             props.db.loadedData.forEach(postObj => {
                 addToMessageState(postObj)
             })
-=======
-            props.db.loadedData.forEach(postObj => {
-                addToMessageState(postObj)
-            })
-            console.log(tabDest)
->>>>>>> bf31e3b6def96a89bf34ee890257c44c5c53af7a
         }
     }
 

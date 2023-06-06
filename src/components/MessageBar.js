@@ -1,10 +1,13 @@
+import { useRef } from "react"
 import "./css/MessageBar.css"
+import { AiFillCloseCircle} from 'react-icons/ai'
 import { BsUpload } from 'react-icons/bs'
 
 function MessageBar(props) {
-    function createMessage() {
+    function createMessage(ev) {
         //Crea un formdata a partir del elemento form. 
         //Se agrego messageBox e imageBox por que formbox.reset daba error
+        ev.stopPropagation()
         const formBox = document.getElementById('messageForm')
         const messageBox = document.getElementById('messageChat')
         const imageBox = document.getElementById('imageChat')
@@ -42,14 +45,57 @@ function MessageBar(props) {
             })
     }
 
+    function showFullBar(ev) {
+        ev.stopPropagation()
+        const messageBar = document.querySelector(".message-bar")
+        const closeButton = document.querySelectorAll(".closeButton")[0]
+        messageBar.classList.add("message-bar--full")
+        closeButton.style.display = "block"
+    }
+
+    function closeFullBar(ev) {
+        ev.stopPropagation()
+        const messageBar = document.querySelector(".message-bar")
+        const closeButton = document.querySelectorAll(".closeButton")[0]
+        const messageBox = document.getElementById('messageChat')
+        const imageBox = document.getElementById('imageChat')
+        messageBar.classList.remove("message-bar--full")
+        closeButton.style.display = "none"
+        messageBox.value = ""
+        imageBox.value = ""
+        removeImageFromPreview()
+    }
+
+    function showSelectedImage(ev) {
+        try {
+            ev.stopPropagation()
+            const imagePreview = document.querySelector(".imagePreview")
+            imagePreview.style.display = "block"
+            imagePreview.src = URL.createObjectURL(ev.target.files[0])
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
+    function removeImageFromPreview(ev) {
+        const imagePreview = document.querySelector(".imagePreview")
+        const imageChat = document.querySelector("#imageChat")
+        imagePreview.src = ""
+        imagePreview.style.display = "none"
+        imageChat.value = ""
+    }
+
     return (
-        <form className="message-bar" id="messageForm">
+        <form className="message-bar" id="messageForm" onClick={showFullBar}>
+            <AiFillCloseCircle className="closeButton" onClick={closeFullBar}/>
             <label className="message-bar__media-button" htmlFor="imageChat">
                 <input 
                     className="message-bar__media-button__input" 
                     type="file" accept="image/*" 
                     name="imageChat"
-                    id="imageChat">
+                    id="imageChat"
+                    onChange={showSelectedImage}
+                    >
                 </input>
                 <BsUpload className="icon" />
             </label>
@@ -64,6 +110,10 @@ function MessageBar(props) {
                         <span>&gt;</span>
                     </div>
                 </label>
+                <section className="imagePreview__container">
+                    <AiFillCloseCircle className="closeButton" onClick={removeImageFromPreview} />
+                    <img className="imagePreview" alt="image preview" />
+                </section>
             </section>
         </form>
     )

@@ -146,30 +146,56 @@ function Chat(props) {
         }
     }
     
-    return (
-        <section className="chat">
-            <header className="chat__header">
-                <article className="chat__header__title chat__header__title-selected" onClick={selectCategory}>
-                    <span className="chat__header__title__text">
-                        general
-                    </span>
-                </article>
-                <article className="chat__header__title" onClick={selectCategory}>
-                    <span className="chat__header__title__text">
-                        directivo
-                    </span>
-                </article>
-                <article className="chat__header__title" onClick={selectCategory}>
-                    <span className="chat__header__title__text">
-                        deportivo
-                    </span>
-                </article>
-            </header>
-            <section className="chat__body" id="chatBody">
-                <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl} tabDest={tabDest.current} addToDb={props.db.add}/>
+    if((props.userMail.includes('ujed') && !props.userMail.includes('alumnos')) || props.userMail === 'lomaslopezsebastian@gmail.com') {
+        return (
+            <section className="chat">
+                <header className="chat__header">
+                    <article className="chat__header__title chat__header__title-selected" onClick={selectCategory}>
+                        <span className="chat__header__title__text">
+                            general
+                        </span>
+                    </article>
+                    <article className="chat__header__title" onClick={selectCategory}>
+                        <span className="chat__header__title__text">
+                            directivo
+                        </span>
+                    </article>
+                    <article className="chat__header__title" onClick={selectCategory}>
+                        <span className="chat__header__title__text">
+                            deportivo
+                        </span>
+                    </article>
+                </header>
+                <section className="chat__body" id="chatBody">
+                    <MessageBar sendMsgProp={sendMsg} userName={props.userName} profilePicUrl={props.profilePicUrl} tabDest={tabDest.current} addToDb={props.db.add}/>
+                </section>
             </section>
-        </section>
-    )
+        )
+    } else {
+        return (
+            <section className="chat">
+                <header className="chat__header">
+                    <article className="chat__header__title chat__header__title-selected" onClick={selectCategory}>
+                        <span className="chat__header__title__text">
+                            general
+                        </span>
+                    </article>
+                    <article className="chat__header__title" onClick={selectCategory}>
+                        <span className="chat__header__title__text">
+                            directivo
+                        </span>
+                    </article>
+                    <article className="chat__header__title" onClick={selectCategory}>
+                        <span className="chat__header__title__text">
+                            deportivo
+                        </span>
+                    </article>
+                </header>
+                <section className="chat__body" id="chatBody">
+                </section>
+            </section>
+        )
+    }
 }
 
 export default Chat

@@ -67,6 +67,7 @@ function App() {
         signOut(auth)
         .then(() => {
             localStorage.clear()
+            initialLoad.current = false
             setLogIn(false)
             console.log("Sesion Finalizada con Exito")
         })
@@ -131,8 +132,6 @@ function App() {
                 callback(data)
             })
         }
-
-        console.table(lastsBrought)
     }
 
     async function addToDb(userName, posterImage, message, image, tabDest, postDate) {

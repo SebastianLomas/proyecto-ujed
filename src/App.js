@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from 'react';
 function App() {
     const userName = useRef("")
     const profilePicUrl = useRef("")
+    const userMail = useRef("")
     const [logIn, setLogIn] = useState(false)
     const initialLoad = useRef(false)
 
@@ -49,6 +50,7 @@ function App() {
             userName.current = user.displayName
             profilePicUrl.current = user.photoURL
             localStorage.setItem("loggedIn",true)
+            userMail.current = user.email
             setLogIn(true)
         }).catch((error) => {
             // Handle Errors here.
@@ -81,6 +83,7 @@ function App() {
             if(currentUser) {
                 userName.current = currentUser.displayName
                 profilePicUrl.current = currentUser.photoURL
+                userMail.current = currentUser.email
                 setLogIn(true)
             } else {
                 console.log("Sesion Cerrada")
@@ -159,6 +162,7 @@ function App() {
                 <Chat 
                     userName={userName.current} 
                     profilePicUrl={profilePicUrl.current} 
+                    userMail={userMail.current}
                     db={
                         {
                             add: addToDb, 

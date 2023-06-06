@@ -134,11 +134,7 @@ function Chat(props) {
                 document.getElementById('chatBody').removeChild(node)
             })
 
-            props.db.get()
-
-            props.db.loadedData.forEach(postObj => {
-                addToMessageState(postObj)
-            })
+            props.db.get(addToMessageState)
         }
     }
 

@@ -132,8 +132,6 @@ function App() {
                 callback(data)
             })
         }
-
-        console.table(lastsBrought)
     }
 
     async function addToDb(userName, posterImage, message, image, tabDest, postDate) {

@@ -13,6 +13,9 @@ const upload = multer({storage})
 const wss = wsServer.createWSServer()
 const connectedUsers = []
 let id = 0
+const buildPath = path.resolve(__dirname,'build')
+
+app.use("/",express.static(buildPath))
 
 app.use((req,res,next) => {
     // Para permitir peticiones desde el server dev de React
